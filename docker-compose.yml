@@ -1,0 +1,23 @@
+version: '3'
+
+
+services:
+
+  airflow-master:
+    build:
+      dockerfile: ./docker/Airflow-Dockerfile
+      context: ./
+    image: milesg/airflow-example:latest
+    volumes:
+      - ./:/code
+    ports:
+      - 8080:8080
+    links:
+      - postgres-db.io
+    depends_on:
+      - postgres-db.io
+    restart: on-failure
+    command: ['bash', '-c', 'airflow initdb && airflow webserver -p 8080']
+
+  postgres-db.io:
+    image: postgres:9.6

@@ -1,0 +1,13 @@
+FROM debian:stretch-slim
+
+RUN apt update && apt install -y \
+    build-essential \
+    python3.5 \
+    python3-pip \
+    python3-setuptools \
+    libffi-dev
+
+RUN ln -sf /usr/bin/pip3 /usr/bin/pip && ln -sf /usr/bin/python3.5 /usr/bin/python
+ENV AIRFLOW_HOME /opt/airflow
+ENV AIRFLOW__CORE__SQL_ALCHEMY_CONN 'postgresql+psycopg2://postgres:postgres@postgres-db.io:5432/postgres'
+RUN pip install "apache-airflow[s3, postgres, redis, crypto]" psycopg2

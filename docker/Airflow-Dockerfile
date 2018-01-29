@@ -5,9 +5,12 @@ RUN apt update && apt install -y \
     python3.5 \
     python3-pip \
     python3-setuptools \
-    libffi-dev
+    libffi-dev \
+    screen
 
 RUN ln -sf /usr/bin/pip3 /usr/bin/pip && ln -sf /usr/bin/python3.5 /usr/bin/python
 ENV AIRFLOW_HOME /opt/airflow
 ENV AIRFLOW__CORE__SQL_ALCHEMY_CONN 'postgresql+psycopg2://postgres:postgres@postgres-db.io:5432/postgres'
 RUN pip install "apache-airflow[s3, postgres, redis, crypto]" psycopg2
+COPY ./airflow.cfg $AIRFLOW_HOME/airflow.cfg
+COPY ./example_dag.py $AIRFLOW_HOME/dags/

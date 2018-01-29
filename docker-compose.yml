@@ -17,7 +17,7 @@ services:
     depends_on:
       - postgres-db.io
     restart: on-failure
-    command: ['bash', '-c', 'airflow initdb && airflow webserver -p 8080']
+    command: ['bash', '-c', 'airflow initdb && screen -dmS scheduler airflow scheduler --daemon && airflow webserver -p 8080']
 
   postgres-db.io:
     image: postgres:9.6
